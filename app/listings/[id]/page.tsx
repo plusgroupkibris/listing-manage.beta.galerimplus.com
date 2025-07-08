@@ -27,6 +27,7 @@ import {
   getPriceChangePercentage,
 } from "@/types";
 import ImageTabs from "./components/image-tabs";
+import FeatureBadges from "./components/feature-badges";
 
 export default function ListingDetailPage() {
   const params = useParams();
@@ -96,6 +97,14 @@ export default function ListingDetailPage() {
       day: "numeric",
     });
   };
+
+
+  const formatFeature = (featureId: string) => {
+  return featureId
+    .replace(/-/g, " ")          // tireleri boşluk yap
+    .replace(/\b\w/g, (l) => l.toUpperCase()); // baş harfleri büyük yap
+};
+
 
   return (
     <div className="container mx-auto p-4">
@@ -332,6 +341,12 @@ export default function ListingDetailPage() {
                   </div>
                 </div>
               )}
+
+
+
+
+
+
 
             {currentListing.remove && (
               <div className="space-y-2 text-red-700 bg-red-50 p-4 rounded-md border border-red-200">
