@@ -214,70 +214,7 @@ export default function CarListingsPage() {
       )}
 
       <>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Filter Recent Listings</CardTitle>
-            </CardHeader>
-            <CardContent className="flex items-center gap-2">
-              <Label htmlFor="filterHours">Last</Label>
-              <Input
-                id="filterHours"
-                type="number"
-                value={filterHours}
-                onChange={(e) =>
-                  setFilterHours(Number.parseInt(e.target.value))
-                }
-                className="w-20"
-              />
-              <Label>hours</Label>
-              <Button
-                onClick={() => console.log("Recent Listings:", recentListings)}
-                variant="outline"
-                className="bg-black text-white"
-              >
-                <Clock className="mr-2 h-4 w-4" /> Show
-              </Button>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Filter by Seller</CardTitle>
-            </CardHeader>
-            <CardContent className="flex items-center gap-2">
-              <Label htmlFor="filterSeller">Seller UID</Label>
-              <Input
-                id="filterSeller"
-                value={filterSellerUid}
-                onChange={(e) => setFilterSellerUid(e.target.value)}
-                placeholder="e.g., seller123"
-              />
-              <Button
-                onClick={() => console.log("Seller Listings:", sellerListings)}
-                variant="outline"
-                className="bg-black text-white"
-              >
-                <User className="mr-2 h-4 w-4" /> Show
-              </Button>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Generate Listing No</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Button
-                onClick={async () =>
-                  alert(`Generated: ${await generateListingNo()}`)
-                } // Await the async function
-                variant="outline"
-                className="bg-black text-white"
-              >
-                Generate
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
+    
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-2xl font-bold">
             All Car Listings ({displayedListings.length})
@@ -332,6 +269,10 @@ export default function CarListingsPage() {
                 )}
                 <p className="text-sm text-muted-foreground">
                   {listing.brand} {listing.model} ({listing.year})
+                </p>
+
+                <p className="text-sm text-muted-foreground">
+                 {listing.seller.name}
                 </p>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Car className="h-4 w-4" /> {listing.mileage.value}{" "}

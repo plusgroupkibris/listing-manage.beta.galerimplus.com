@@ -341,9 +341,7 @@ export default function ListingDetailPage() {
                 </div>
               )}
 
-<p>
-  v2
-</p>
+            <p>v2</p>
             <FeatureBadges
               selectedEquipmentFeatures={
                 currentListing.selectedEquipmentFeatures
