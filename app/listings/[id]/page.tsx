@@ -99,13 +99,16 @@ export default function ListingDetailPage() {
 
   return (
     <div className="container mx-auto p-4">
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
         <Link href="/">
-          <Button variant="outline">
-            <ArrowLeft className="mr-2 h-4 w-4" /> Back to Listings
+          <Button variant="outline" className="w-full sm:w-auto">
+            <ArrowLeft className="mr-2 h-4 w-4" /> Geri
           </Button>
         </Link>
-        <h1 className="text-3xl font-bold">{currentListing.title}</h1>
+
+        <h1 className="text-xl sm:text-3xl font-bold text-center sm:text-left">
+          {currentListing.title}
+        </h1>
       </div>
 
       <Card className="mb-8">
