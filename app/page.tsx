@@ -213,510 +213,249 @@ export default function CarListingsPage() {
         </div>
       )}
 
-      <Tabs defaultValue="add" className="w-full">
-        <TabsList className="w-full grid grid-cols-2 mb-6">
-          <TabsTrigger value="add">Ekle</TabsTrigger>
-          <TabsTrigger value="list">İlanlar</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="add">
-          <Card className="mb-8">
+      <>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          <Card>
             <CardHeader>
-              <CardTitle>
-                Add New Car Listing (Hızlı ekleme Test için sınırlı ozellikleri
-                vardır)
-              </CardTitle>
-              <CardDescription>
-                Fill in the details to add a new car to the inventory.
-              </CardDescription>
+              <CardTitle className="text-lg">Filter Recent Listings</CardTitle>
             </CardHeader>
-            <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="title">Title</Label>
-                <Input
-                  id="title"
-                  value={newListingTitle}
-                  onChange={(e) => setNewListingTitle(e.target.value)}
-                  placeholder="e.g., 2023 Honda Civic"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="brand">Brand</Label>
-                <Input
-                  id="brand"
-                  value={newListingBrand}
-                  onChange={(e) => setNewListingBrand(e.target.value)}
-                  placeholder="e.g., Honda"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="model">Model</Label>
-                <Input
-                  id="model"
-                  value={newListingModel}
-                  onChange={(e) => setNewListingModel(e.target.value)}
-                  placeholder="e.g., Civic"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="year">Year</Label>
-                <Input
-                  id="year"
-                  type="number"
-                  value={newListingYear}
-                  onChange={(e) =>
-                    setNewListingYear(Number.parseInt(e.target.value))
-                  }
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="price">Price</Label>
-                <Input
-                  id="price"
-                  type="number"
-                  value={newListingPrice}
-                  onChange={(e) =>
-                    setNewListingPrice(Number.parseFloat(e.target.value))
-                  }
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="currency">Currency</Label>
-                <Select
-                  value={newListingCurrency}
-                  onValueChange={setNewListingCurrency}
-                >
-                  <SelectTrigger id="currency">
-                    <SelectValue placeholder="Select currency" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="USD">USD</SelectItem>
-                    <SelectItem value="EUR">EUR</SelectItem>
-                    <SelectItem value="TRY">TRY</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="mileageValue">Mileage Value</Label>
-                <Input
-                  id="mileageValue"
-                  type="number"
-                  value={newListingMileageValue}
-                  onChange={(e) =>
-                    setNewListingMileageValue(Number.parseInt(e.target.value))
-                  }
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="mileageUnit">Mileage Unit</Label>
-                <Select
-                  value={newListingMileageUnit}
-                  onValueChange={setNewListingMileageUnit}
-                >
-                  <SelectTrigger id="mileageUnit">
-                    <SelectValue placeholder="Select unit" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="km">km</SelectItem>
-                    <SelectItem value="mile">mile</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="fuelType">Fuel Type</Label>
-                <Select
-                  value={newListingFuelType}
-                  onValueChange={setNewListingFuelType}
-                >
-                  <SelectTrigger id="fuelType">
-                    <SelectValue placeholder="Select fuel type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Gasoline">Gasoline</SelectItem>
-                    <SelectItem value="Diesel">Diesel</SelectItem>
-                    <SelectItem value="LPG">LPG</SelectItem>
-                    <SelectItem value="Electric">Electric</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="transmissionType">Transmission</Label>
-                <Select
-                  value={newListingTransmissionType}
-                  onValueChange={setNewListingTransmissionType}
-                >
-                  <SelectTrigger id="transmissionType">
-                    <SelectValue placeholder="Select transmission" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Automatic">Automatic</SelectItem>
-                    <SelectItem value="Manual">Manual</SelectItem>
-                    <SelectItem value="Semi-Automatic">
-                      Semi-Automatic
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="vehicleType">Vehicle Type</Label>
-                <Select
-                  value={newListingVehicleType}
-                  onValueChange={setNewListingVehicleType}
-                >
-                  <SelectTrigger id="vehicleType">
-                    <SelectValue placeholder="Select vehicle type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Sedan">Sedan</SelectItem>
-                    <SelectItem value="SUV">SUV</SelectItem>
-                    <SelectItem value="Hatchback">Hatchback</SelectItem>
-                    <SelectItem value="Truck">Truck</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="colorName">Color Name</Label>
-                <Input
-                  id="colorName"
-                  value={newListingColorName}
-                  onChange={(e) => setNewListingColorName(e.target.value)}
-                  placeholder="e.g., Black"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="colorCode">Color Code</Label>
-                <Input
-                  id="colorCode"
-                  value={newListingColorCode}
-                  onChange={(e) => setNewListingColorCode(e.target.value)}
-                  placeholder="e.g., #000000"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="country">Country</Label>
-                <Input
-                  id="country"
-                  value={newListingCountry}
-                  onChange={(e) => setNewListingCountry(e.target.value)}
-                  placeholder="e.g., Turkey"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="city">City</Label>
-                <Input
-                  id="city"
-                  value={newListingCity}
-                  onChange={(e) => setNewListingCity(e.target.value)}
-                  placeholder="e.g., Istanbul"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="district">District</Label>
-                <Input
-                  id="district"
-                  value={newListingDistrict}
-                  onChange={(e) => setNewListingDistrict(e.target.value)}
-                  placeholder="e.g., Kadıköy"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="sellerUid">Seller UID</Label>
-                <Input
-                  id="sellerUid"
-                  value={newListingSellerUid}
-                  onChange={(e) => setNewListingSellerUid(e.target.value)}
-                  placeholder="e.g., seller123"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="sellerName">Seller Name</Label>
-                <Input
-                  id="sellerName"
-                  value={newListingSellerName}
-                  onChange={(e) => setNewListingSellerName(e.target.value)}
-                  placeholder="e.g., John Doe"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="sellerType">Seller Type</Label>
-                <Select
-                  value={newListingSellerType}
-                  onValueChange={setNewListingSellerType}
-                >
-                  <SelectTrigger id="sellerType">
-                    <SelectValue placeholder="Select seller type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="individual">Individual</SelectItem>
-                    <SelectItem value="corporate">Corporate</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button onClick={handleAddListing} disabled={isLoading}>
-                {isLoading ? (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                ) : (
-                  <PlusCircle className="mr-2 h-4 w-4" />
-                )}
-                Add Listing
+            <CardContent className="flex items-center gap-2">
+              <Label htmlFor="filterHours">Last</Label>
+              <Input
+                id="filterHours"
+                type="number"
+                value={filterHours}
+                onChange={(e) =>
+                  setFilterHours(Number.parseInt(e.target.value))
+                }
+                className="w-20"
+              />
+              <Label>hours</Label>
+              <Button
+                onClick={() => console.log("Recent Listings:", recentListings)}
+                variant="outline"
+                className="bg-black text-white"
+              >
+                <Clock className="mr-2 h-4 w-4" /> Show
               </Button>
-            </CardFooter>
+            </CardContent>
           </Card>
-        </TabsContent>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">Filter by Seller</CardTitle>
+            </CardHeader>
+            <CardContent className="flex items-center gap-2">
+              <Label htmlFor="filterSeller">Seller UID</Label>
+              <Input
+                id="filterSeller"
+                value={filterSellerUid}
+                onChange={(e) => setFilterSellerUid(e.target.value)}
+                placeholder="e.g., seller123"
+              />
+              <Button
+                onClick={() => console.log("Seller Listings:", sellerListings)}
+                variant="outline"
+                className="bg-black text-white"
+              >
+                <User className="mr-2 h-4 w-4" /> Show
+              </Button>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">Generate Listing No</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Button
+                onClick={async () =>
+                  alert(`Generated: ${await generateListingNo()}`)
+                } // Await the async function
+                variant="outline"
+                className="bg-black text-white"
+              >
+                Generate
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-2xl font-bold">
+            All Car Listings ({displayedListings.length})
+          </h2>
+          <Button
+            onClick={fetchListings}
+            disabled={isLoading}
+            variant="outline"
+            className="bg-black text-white"
+          >
+            {isLoading ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <RefreshCw className="mr-2 h-4 w-4" />
+            )}
+            Refresh Listings
+          </Button>
+        </div>
 
-        <TabsContent value="list">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">
-                  Filter Recent Listings
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="flex items-center gap-2">
-                <Label htmlFor="filterHours">Last</Label>
-                <Input
-                  id="filterHours"
-                  type="number"
-                  value={filterHours}
-                  onChange={(e) =>
-                    setFilterHours(Number.parseInt(e.target.value))
-                  }
-                  className="w-20"
-                />
-                <Label>hours</Label>
-                <Button
-                  onClick={() =>
-                    console.log("Recent Listings:", recentListings)
-                  }
-                  variant="outline"
-                  className="bg-black text-white"
-                >
-                  <Clock className="mr-2 h-4 w-4" /> Show
-                </Button>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Filter by Seller</CardTitle>
-              </CardHeader>
-              <CardContent className="flex items-center gap-2">
-                <Label htmlFor="filterSeller">Seller UID</Label>
-                <Input
-                  id="filterSeller"
-                  value={filterSellerUid}
-                  onChange={(e) => setFilterSellerUid(e.target.value)}
-                  placeholder="e.g., seller123"
-                />
-                <Button
-                  onClick={() =>
-                    console.log("Seller Listings:", sellerListings)
-                  }
-                  variant="outline"
-                  className="bg-black text-white"
-                >
-                  <User className="mr-2 h-4 w-4" /> Show
-                </Button>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Generate Listing No</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Button
-                  onClick={async () =>
-                    alert(`Generated: ${await generateListingNo()}`)
-                  } // Await the async function
-                  variant="outline"
-                  className="bg-black text-white"
-                >
-                  Generate
-                </Button>
-              </CardContent>
-            </Card>
+        {isLoading && (
+          <div className="flex items-center justify-center h-40">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            <span className="ml-2">Loading listings...</span>
           </div>
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-bold">
-              All Car Listings ({displayedListings.length})
-            </h2>
-            <Button
-              onClick={fetchListings}
-              disabled={isLoading}
-              variant="outline"
-              className="bg-black text-white"
-            >
-              {isLoading ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              ) : (
-                <RefreshCw className="mr-2 h-4 w-4" />
-              )}
-              Refresh Listings
-            </Button>
-          </div>
+        )}
+        {!isLoading && displayedListings.length === 0 && (
+          <p>No listings found matching your criteria.</p>
+        )}
 
-          {isLoading && (
-            <div className="flex items-center justify-center h-40">
-              <Loader2 className="h-8 w-8 animate-spin text-primary" />
-              <span className="ml-2">Loading listings...</span>
-            </div>
-          )}
-          {!isLoading && displayedListings.length === 0 && (
-            <p>No listings found matching your criteria.</p>
-          )}
-
-          <div className="grid gap-6">
-            {paginatedListings.map((listing) => (
-              <Card className="flex flex-col md:flex-row items-start md:items-center gap-4 p-4">
-                <img
-                  src={
-                    listing.imageUrl ||
-                    "/placeholder.svg?height=100&width=150&query=car-default"
-                  }
-                  alt={listing.title}
-                  width={150}
-                  height={100}
-                  className="rounded-md object-cover aspect-[3/2]"
-                />
-                <div className="flex-1 grid gap-1">
-                  {editingListingId === listing.id ? (
-                    <Input
-                      value={editTitle}
-                      onChange={(e) => setEditTitle(e.target.value)}
-                      className="text-xl font-semibold"
-                    />
-                  ) : (
-                    <h3 className="text-xl font-semibold">{listing.title}</h3>
-                  )}
-                  <p className="text-sm text-muted-foreground">
-                    {listing.brand} {listing.model} ({listing.year})
-                  </p>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Car className="h-4 w-4" /> {listing.mileage.value}{" "}
-                    {listing.mileage.unit}
-                    <DollarSign className="h-4 w-4" /> {listing.price.amount}{" "}
-                    {listing.price.currency}
-                  </div>
-                  <div className="flex items-center gap-2 mt-2">
+        <div className="grid gap-6">
+          {paginatedListings.map((listing) => (
+            <Card className="flex flex-col md:flex-row items-start md:items-center gap-4 p-4">
+              <img
+                src={
+                  listing.imageUrl ||
+                  "/placeholder.svg?height=100&width=150&query=car-default"
+                }
+                alt={listing.title}
+                width={150}
+                height={100}
+                className="rounded-md object-cover aspect-[3/2]"
+              />
+              <div className="flex-1 grid gap-1">
+                {editingListingId === listing.id ? (
+                  <Input
+                    value={editTitle}
+                    onChange={(e) => setEditTitle(e.target.value)}
+                    className="text-xl font-semibold"
+                  />
+                ) : (
+                  <h3 className="text-xl font-semibold">{listing.title}</h3>
+                )}
+                <p className="text-sm text-muted-foreground">
+                  {listing.brand} {listing.model} ({listing.year})
+                </p>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Car className="h-4 w-4" /> {listing.mileage.value}{" "}
+                  {listing.mileage.unit}
+                  <DollarSign className="h-4 w-4" /> {listing.price.amount}{" "}
+                  {listing.price.currency}
+                </div>
+                <div className="flex items-center gap-2 mt-2">
+                  <Badge
+                    variant={
+                      listing.status === "active" ? "default" : "secondary"
+                    }
+                  >
+                    {listing.status}
+                  </Badge>
+                  {hasPriceChanged(listing) && (
                     <Badge
-                      variant={
-                        listing.status === "active" ? "default" : "secondary"
-                      }
+                      variant="outline"
+                      className="bg-yellow-100 text-yellow-800"
                     >
-                      {listing.status}
+                      Price Changed
+                      {hasPriceDecreased(listing) && (
+                        <span className="ml-1 text-green-600">
+                          ({getPriceChangePercentage(listing).toFixed(2)}%)
+                        </span>
+                      )}
+                      {hasPriceIncreased(listing) && (
+                        <span className="ml-1 text-red-600">
+                          ({getPriceChangePercentage(listing).toFixed(2)}%)
+                        </span>
+                      )}
                     </Badge>
-                    {hasPriceChanged(listing) && (
-                      <Badge
-                        variant="outline"
-                        className="bg-yellow-100 text-yellow-800"
-                      >
-                        Price Changed
-                        {hasPriceDecreased(listing) && (
-                          <span className="ml-1 text-green-600">
-                            ({getPriceChangePercentage(listing).toFixed(2)}%)
-                          </span>
-                        )}
-                        {hasPriceIncreased(listing) && (
-                          <span className="ml-1 text-red-600">
-                            ({getPriceChangePercentage(listing).toFixed(2)}%)
-                          </span>
-                        )}
-                      </Badge>
-                    )}
-                  </div>
-                </div>
-                <div className="flex gap-2 mt-4 md:mt-0">
-                  {editingListingId === listing.id ? (
-                    <>
-                      <Input
-                        type="number"
-                        value={editPrice}
-                        onChange={(e) =>
-                          setEditPrice(Number.parseFloat(e.target.value))
-                        }
-                        className="w-24"
-                      />
-                      <Button
-                        onClick={() => handleUpdateListing(listing.id)}
-                        size="sm"
-                        className="bg-green-500 text-white hover:bg-green-600"
-                      >
-                        Save
-                      </Button>
-                      <Button
-                        onClick={() => setEditingListingId(null)}
-                        size="sm"
-                        variant="outline"
-                        className="bg-gray-200 text-gray-800 hover:bg-gray-300"
-                      >
-                        Cancel
-                      </Button>
-                    </>
-                  ) : (
-                    <>
-                      <Button
-                        onClick={() => router.push(`/listings/${listing.id}`)}
-                        size="sm"
-                        variant="outline"
-                        className="text-blue-600 hover:text-blue-800"
-                      >
-                        <Eye className="h-4 w-4" />
-                      </Button>
-
-                      <Button
-                        onClick={(e) => {
-                          e.preventDefault(); // Link'in tıklanmasını engelle
-                          startEditing(listing);
-                        }}
-                        size="sm"
-                        variant="outline"
-                        className="bg-blue-500 text-white hover:bg-blue-600"
-                      >
-                        <Edit className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        onClick={(e) => {
-                          e.preventDefault(); // Link'in tıklanmasını engelle
-                          deleteListing(listing.id);
-                        }}
-                        size="sm"
-                        variant="destructive"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </>
                   )}
                 </div>
-              </Card>
-            ))}
-          </div>
+              </div>
+              <div className="flex gap-2 mt-4 md:mt-0">
+                {editingListingId === listing.id ? (
+                  <>
+                    <Input
+                      type="number"
+                      value={editPrice}
+                      onChange={(e) =>
+                        setEditPrice(Number.parseFloat(e.target.value))
+                      }
+                      className="w-24"
+                    />
+                    <Button
+                      onClick={() => handleUpdateListing(listing.id)}
+                      size="sm"
+                      className="bg-green-500 text-white hover:bg-green-600"
+                    >
+                      Save
+                    </Button>
+                    <Button
+                      onClick={() => setEditingListingId(null)}
+                      size="sm"
+                      variant="outline"
+                      className="bg-gray-200 text-gray-800 hover:bg-gray-300"
+                    >
+                      Cancel
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button
+                      onClick={() => router.push(`/listings/${listing.id}`)}
+                      size="sm"
+                      variant="outline"
+                      className="text-blue-600 hover:text-blue-800"
+                    >
+                      <Eye className="h-4 w-4" />
+                    </Button>
 
-          <div className="flex justify-center gap-2 mt-8">
-            <Button
-              onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
-              disabled={currentPage === 1 || isLoading}
-              variant="outline"
-              className="bg-black text-white"
-            >
-              Previous
-            </Button>
-            <span className="flex items-center">
-              Page {currentPage} of {totalPages}
-            </span>
-            <Button
-              onClick={() =>
-                setCurrentPage((prev) => Math.min(totalPages, prev + 1))
-              }
-              disabled={currentPage === totalPages || isLoading}
-              variant="outline"
-              className="bg-black text-white"
-            >
-              Next
-            </Button>
-          </div>
-        </TabsContent>
-      </Tabs>
+                    <Button
+                      onClick={(e) => {
+                        startEditing(listing);
+                      }}
+                      size="sm"
+                      variant="outline"
+                      className="bg-blue-500 text-white hover:bg-blue-600"
+                    >
+                      <Edit className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      onClick={(e) => {
+                        //deleteListing(listing.id);
+                        alert(`silme listeleme basladıgı için devredısıdır.`);
+                      }}
+                      size="sm"
+                      variant="destructive"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </>
+                )}
+              </div>
+            </Card>
+          ))}
+        </div>
+
+        <div className="flex justify-center gap-2 mt-8">
+          <Button
+            onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+            disabled={currentPage === 1 || isLoading}
+            variant="outline"
+            className="bg-black text-white"
+          >
+            Previous
+          </Button>
+          <span className="flex items-center">
+            Page {currentPage} of {totalPages}
+          </span>
+          <Button
+            onClick={() =>
+              setCurrentPage((prev) => Math.min(totalPages, prev + 1))
+            }
+            disabled={currentPage === totalPages || isLoading}
+            variant="outline"
+            className="bg-black text-white"
+          >
+            Next
+          </Button>
+        </div>
+      </>
     </div>
   );
 }
