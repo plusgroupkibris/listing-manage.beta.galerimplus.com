@@ -340,8 +340,11 @@ export default function ListingDetailPage() {
                   </div>
                 </div>
               )}
-
-            <p>v2</p>
+            {currentListing.selectedEquipmentFeatures && (
+              <>
+                <p>v2</p>
+              </>
+            )}
             <FeatureBadges
               selectedEquipmentFeatures={
                 currentListing.selectedEquipmentFeatures
