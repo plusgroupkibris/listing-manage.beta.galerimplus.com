@@ -37,10 +37,11 @@ import {
   Car,
   DollarSign,
   RefreshCw,
+  Eye,
 } from "lucide-react";
 import { useCarListingsStore } from "@/store/use-car-listings-store";
-import Link from "next/link"
-
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function CarListingsPage() {
   const {
@@ -108,6 +109,8 @@ export default function CarListingsPage() {
       alert("Please fill in all required fields.");
       return;
     }
+
+
 
     const dummyImages = {
       Front: ["/placeholder.svg?height=200&width=300"],
@@ -199,6 +202,10 @@ export default function CarListingsPage() {
   const recentListings = getRecentListings(filterHours);
   const sellerListings = getListingsBySeller(filterSellerUid);
 
+    const router = useRouter()
+
+
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-6">Car Listings Dashboard</h1>
@@ -211,7 +218,10 @@ export default function CarListingsPage() {
 
       <Card className="mb-8">
         <CardHeader>
-          <CardTitle>Add New Car Listing (Hızlı ekleme Test için sınırlı ozellikleri vardır)</CardTitle>
+          <CardTitle>
+            Add New Car Listing (Hızlı ekleme Test için sınırlı ozellikleri
+            vardır)
+          </CardTitle>
           <CardDescription>
             Fill in the details to add a new car to the inventory.
           </CardDescription>
@@ -660,120 +670,127 @@ export default function CarListingsPage() {
 
       <div className="grid gap-6">
         {paginatedListings.map((listing) => (
-          <Link key={listing.id} href={`/listings/${listing.id}`} passHref>
-            <Card className="flex flex-col md:flex-row items-start md:items-center gap-4 p-4">
-              <img
-                src={
-                  listing.imageUrl ||
-                  "/placeholder.svg?height=100&width=150&query=car-default"
-                }
-                alt={listing.title}
-                width={150}
-                height={100}
-                className="rounded-md object-cover aspect-[3/2]"
-              />
-              <div className="flex-1 grid gap-1">
-                {editingListingId === listing.id ? (
-                  <Input
-                    value={editTitle}
-                    onChange={(e) => setEditTitle(e.target.value)}
-                    className="text-xl font-semibold"
-                  />
-                ) : (
-                  <h3 className="text-xl font-semibold">{listing.title}</h3>
-                )}
-                <p className="text-sm text-muted-foreground">
-                  {listing.brand} {listing.model} ({listing.year})
-                </p>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Car className="h-4 w-4" /> {listing.mileage.value}{" "}
-                  {listing.mileage.unit}
-                  <DollarSign className="h-4 w-4" /> {listing.price.amount}{" "}
-                  {listing.price.currency}
-                </div>
-                <div className="flex items-center gap-2 mt-2">
+          <Card className="flex flex-col md:flex-row items-start md:items-center gap-4 p-4">
+            <img
+              src={
+                listing.imageUrl ||
+                "/placeholder.svg?height=100&width=150&query=car-default"
+              }
+              alt={listing.title}
+              width={150}
+              height={100}
+              className="rounded-md object-cover aspect-[3/2]"
+            />
+            <div className="flex-1 grid gap-1">
+              {editingListingId === listing.id ? (
+                <Input
+                  value={editTitle}
+                  onChange={(e) => setEditTitle(e.target.value)}
+                  className="text-xl font-semibold"
+                />
+              ) : (
+                <h3 className="text-xl font-semibold">{listing.title}</h3>
+              )}
+              <p className="text-sm text-muted-foreground">
+                {listing.brand} {listing.model} ({listing.year})
+              </p>
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Car className="h-4 w-4" /> {listing.mileage.value}{" "}
+                {listing.mileage.unit}
+                <DollarSign className="h-4 w-4" /> {listing.price.amount}{" "}
+                {listing.price.currency}
+              </div>
+              <div className="flex items-center gap-2 mt-2">
+                <Badge
+                  variant={
+                    listing.status === "active" ? "default" : "secondary"
+                  }
+                >
+                  {listing.status}
+                </Badge>
+                {hasPriceChanged(listing) && (
                   <Badge
-                    variant={
-                      listing.status === "active" ? "default" : "secondary"
-                    }
+                    variant="outline"
+                    className="bg-yellow-100 text-yellow-800"
                   >
-                    {listing.status}
+                    Price Changed
+                    {hasPriceDecreased(listing) && (
+                      <span className="ml-1 text-green-600">
+                        ({getPriceChangePercentage(listing).toFixed(2)}%)
+                      </span>
+                    )}
+                    {hasPriceIncreased(listing) && (
+                      <span className="ml-1 text-red-600">
+                        ({getPriceChangePercentage(listing).toFixed(2)}%)
+                      </span>
+                    )}
                   </Badge>
-                  {hasPriceChanged(listing) && (
-                    <Badge
-                      variant="outline"
-                      className="bg-yellow-100 text-yellow-800"
-                    >
-                      Price Changed
-                      {hasPriceDecreased(listing) && (
-                        <span className="ml-1 text-green-600">
-                          ({getPriceChangePercentage(listing).toFixed(2)}%)
-                        </span>
-                      )}
-                      {hasPriceIncreased(listing) && (
-                        <span className="ml-1 text-red-600">
-                          ({getPriceChangePercentage(listing).toFixed(2)}%)
-                        </span>
-                      )}
-                    </Badge>
-                  )}
-                </div>
-              </div>
-              <div className="flex gap-2 mt-4 md:mt-0">
-                {editingListingId === listing.id ? (
-                  <>
-                    <Input
-                      type="number"
-                      value={editPrice}
-                      onChange={(e) =>
-                        setEditPrice(Number.parseFloat(e.target.value))
-                      }
-                      className="w-24"
-                    />
-                    <Button
-                      onClick={() => handleUpdateListing(listing.id)}
-                      size="sm"
-                      className="bg-green-500 text-white hover:bg-green-600"
-                    >
-                      Save
-                    </Button>
-                    <Button
-                      onClick={() => setEditingListingId(null)}
-                      size="sm"
-                      variant="outline"
-                      className="bg-gray-200 text-gray-800 hover:bg-gray-300"
-                    >
-                      Cancel
-                    </Button>
-                  </>
-                ) : (
-                  <>
-                    <Button
-                      onClick={(e) => {
-                        e.preventDefault(); // Link'in tıklanmasını engelle
-                        startEditing(listing);
-                      }}
-                      size="sm"
-                      variant="outline"
-                      className="bg-blue-500 text-white hover:bg-blue-600"
-                    >
-                      <Edit className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      onClick={(e) => {
-                        e.preventDefault(); // Link'in tıklanmasını engelle
-                        deleteListing(listing.id);
-                      }}
-                      size="sm"
-                      variant="destructive"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </>
                 )}
               </div>
-            </Card>
-          </Link>
+            </div>
+            <div className="flex gap-2 mt-4 md:mt-0">
+              {editingListingId === listing.id ? (
+                <>
+                  <Input
+                    type="number"
+                    value={editPrice}
+                    onChange={(e) =>
+                      setEditPrice(Number.parseFloat(e.target.value))
+                    }
+                    className="w-24"
+                  />
+                  <Button
+                    onClick={() => handleUpdateListing(listing.id)}
+                    size="sm"
+                    className="bg-green-500 text-white hover:bg-green-600"
+                  >
+                    Save
+                  </Button>
+                  <Button
+                    onClick={() => setEditingListingId(null)}
+                    size="sm"
+                    variant="outline"
+                    className="bg-gray-200 text-gray-800 hover:bg-gray-300"
+                  >
+                    Cancel
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    onClick={() => router.push(`/listings/${listing.id}`)}
+                    size="sm"
+                    variant="outline"
+                    className="text-blue-600 hover:text-blue-800"
+                  >
+                    <Eye className="h-4 w-4" />
+                  </Button>
+
+                  <Button
+                    onClick={(e) => {
+                      e.preventDefault(); // Link'in tıklanmasını engelle
+                      startEditing(listing);
+                    }}
+                    size="sm"
+                    variant="outline"
+                    className="bg-blue-500 text-white hover:bg-blue-600"
+                  >
+                    <Edit className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    onClick={(e) => {
+                      e.preventDefault(); // Link'in tıklanmasını engelle
+                      deleteListing(listing.id);
+                    }}
+                    size="sm"
+                    variant="destructive"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </>
+              )}
+            </div>
+          </Card>
         ))}
       </div>
 
