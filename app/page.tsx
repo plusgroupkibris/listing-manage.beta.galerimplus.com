@@ -407,7 +407,8 @@ export default function CarListingsPage() {
 
                     <Button
                       onClick={(e) => {
-                        startEditing(listing);
+                       // startEditing(listing);
+                        alert(`listing edit`);
                       }}
                       size="sm"
                       variant="outline"
