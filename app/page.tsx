@@ -214,11 +214,11 @@ export default function CarListingsPage() {
       )}
 
       <Tabs defaultValue="add" className="w-full">
-   <TabsList className="w-full grid grid-cols-3 mb-6">
-  <TabsTrigger value="add">Ekle</TabsTrigger>
-  <TabsTrigger value="filter">Filtrele</TabsTrigger>
-  <TabsTrigger value="list">İlanlar</TabsTrigger>
-</TabsList>
+        <TabsList className="w-full grid grid-cols-3 mb-6">
+          <TabsTrigger value="add">Ekle</TabsTrigger>
+          <TabsTrigger value="filter">Filtrele</TabsTrigger>
+          <TabsTrigger value="list">İlanlar</TabsTrigger>
+        </TabsList>
 
         <TabsContent value="add">
           <Card className="mb-8">
@@ -539,190 +539,186 @@ export default function CarListingsPage() {
           </div>
         </TabsContent>
         <TabsContent value="list">
-          
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-2xl font-bold">
-          All Car Listings ({displayedListings.length})
-        </h2>
-        <Button
-          onClick={fetchListings}
-          disabled={isLoading}
-          variant="outline"
-          className="bg-black text-white"
-        >
-          {isLoading ? (
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-          ) : (
-            <RefreshCw className="mr-2 h-4 w-4" />
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-2xl font-bold">
+              All Car Listings ({displayedListings.length})
+            </h2>
+            <Button
+              onClick={fetchListings}
+              disabled={isLoading}
+              variant="outline"
+              className="bg-black text-white"
+            >
+              {isLoading ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <RefreshCw className="mr-2 h-4 w-4" />
+              )}
+              Refresh Listings
+            </Button>
+          </div>
+
+          {isLoading && (
+            <div className="flex items-center justify-center h-40">
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+              <span className="ml-2">Loading listings...</span>
+            </div>
           )}
-          Refresh Listings
-        </Button>
-      </div>
+          {!isLoading && displayedListings.length === 0 && (
+            <p>No listings found matching your criteria.</p>
+          )}
 
-      {isLoading && (
-        <div className="flex items-center justify-center h-40">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
-          <span className="ml-2">Loading listings...</span>
-        </div>
-      )}
-      {!isLoading && displayedListings.length === 0 && (
-        <p>No listings found matching your criteria.</p>
-      )}
-
-      <div className="grid gap-6">
-        {paginatedListings.map((listing) => (
-          <Card className="flex flex-col md:flex-row items-start md:items-center gap-4 p-4">
-            <img
-              src={
-                listing.imageUrl ||
-                "/placeholder.svg?height=100&width=150&query=car-default"
-              }
-              alt={listing.title}
-              width={150}
-              height={100}
-              className="rounded-md object-cover aspect-[3/2]"
-            />
-            <div className="flex-1 grid gap-1">
-              {editingListingId === listing.id ? (
-                <Input
-                  value={editTitle}
-                  onChange={(e) => setEditTitle(e.target.value)}
-                  className="text-xl font-semibold"
-                />
-              ) : (
-                <h3 className="text-xl font-semibold">{listing.title}</h3>
-              )}
-              <p className="text-sm text-muted-foreground">
-                {listing.brand} {listing.model} ({listing.year})
-              </p>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Car className="h-4 w-4" /> {listing.mileage.value}{" "}
-                {listing.mileage.unit}
-                <DollarSign className="h-4 w-4" /> {listing.price.amount}{" "}
-                {listing.price.currency}
-              </div>
-              <div className="flex items-center gap-2 mt-2">
-                <Badge
-                  variant={
-                    listing.status === "active" ? "default" : "secondary"
+          <div className="grid gap-6">
+            {paginatedListings.map((listing) => (
+              <Card className="flex flex-col md:flex-row items-start md:items-center gap-4 p-4">
+                <img
+                  src={
+                    listing.imageUrl ||
+                    "/placeholder.svg?height=100&width=150&query=car-default"
                   }
-                >
-                  {listing.status}
-                </Badge>
-                {hasPriceChanged(listing) && (
-                  <Badge
-                    variant="outline"
-                    className="bg-yellow-100 text-yellow-800"
-                  >
-                    Price Changed
-                    {hasPriceDecreased(listing) && (
-                      <span className="ml-1 text-green-600">
-                        ({getPriceChangePercentage(listing).toFixed(2)}%)
-                      </span>
+                  alt={listing.title}
+                  width={150}
+                  height={100}
+                  className="rounded-md object-cover aspect-[3/2]"
+                />
+                <div className="flex-1 grid gap-1">
+                  {editingListingId === listing.id ? (
+                    <Input
+                      value={editTitle}
+                      onChange={(e) => setEditTitle(e.target.value)}
+                      className="text-xl font-semibold"
+                    />
+                  ) : (
+                    <h3 className="text-xl font-semibold">{listing.title}</h3>
+                  )}
+                  <p className="text-sm text-muted-foreground">
+                    {listing.brand} {listing.model} ({listing.year})
+                  </p>
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Car className="h-4 w-4" /> {listing.mileage.value}{" "}
+                    {listing.mileage.unit}
+                    <DollarSign className="h-4 w-4" /> {listing.price.amount}{" "}
+                    {listing.price.currency}
+                  </div>
+                  <div className="flex items-center gap-2 mt-2">
+                    <Badge
+                      variant={
+                        listing.status === "active" ? "default" : "secondary"
+                      }
+                    >
+                      {listing.status}
+                    </Badge>
+                    {hasPriceChanged(listing) && (
+                      <Badge
+                        variant="outline"
+                        className="bg-yellow-100 text-yellow-800"
+                      >
+                        Price Changed
+                        {hasPriceDecreased(listing) && (
+                          <span className="ml-1 text-green-600">
+                            ({getPriceChangePercentage(listing).toFixed(2)}%)
+                          </span>
+                        )}
+                        {hasPriceIncreased(listing) && (
+                          <span className="ml-1 text-red-600">
+                            ({getPriceChangePercentage(listing).toFixed(2)}%)
+                          </span>
+                        )}
+                      </Badge>
                     )}
-                    {hasPriceIncreased(listing) && (
-                      <span className="ml-1 text-red-600">
-                        ({getPriceChangePercentage(listing).toFixed(2)}%)
-                      </span>
-                    )}
-                  </Badge>
-                )}
-              </div>
-            </div>
-            <div className="flex gap-2 mt-4 md:mt-0">
-              {editingListingId === listing.id ? (
-                <>
-                  <Input
-                    type="number"
-                    value={editPrice}
-                    onChange={(e) =>
-                      setEditPrice(Number.parseFloat(e.target.value))
-                    }
-                    className="w-24"
-                  />
-                  <Button
-                    onClick={() => handleUpdateListing(listing.id)}
-                    size="sm"
-                    className="bg-green-500 text-white hover:bg-green-600"
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    onClick={() => setEditingListingId(null)}
-                    size="sm"
-                    variant="outline"
-                    className="bg-gray-200 text-gray-800 hover:bg-gray-300"
-                  >
-                    Cancel
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Button
-                    onClick={() => router.push(`/listings/${listing.id}`)}
-                    size="sm"
-                    variant="outline"
-                    className="text-blue-600 hover:text-blue-800"
-                  >
-                    <Eye className="h-4 w-4" />
-                  </Button>
+                  </div>
+                </div>
+                <div className="flex gap-2 mt-4 md:mt-0">
+                  {editingListingId === listing.id ? (
+                    <>
+                      <Input
+                        type="number"
+                        value={editPrice}
+                        onChange={(e) =>
+                          setEditPrice(Number.parseFloat(e.target.value))
+                        }
+                        className="w-24"
+                      />
+                      <Button
+                        onClick={() => handleUpdateListing(listing.id)}
+                        size="sm"
+                        className="bg-green-500 text-white hover:bg-green-600"
+                      >
+                        Save
+                      </Button>
+                      <Button
+                        onClick={() => setEditingListingId(null)}
+                        size="sm"
+                        variant="outline"
+                        className="bg-gray-200 text-gray-800 hover:bg-gray-300"
+                      >
+                        Cancel
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button
+                        onClick={() => router.push(`/listings/${listing.id}`)}
+                        size="sm"
+                        variant="outline"
+                        className="text-blue-600 hover:text-blue-800"
+                      >
+                        <Eye className="h-4 w-4" />
+                      </Button>
 
-                  <Button
-                    onClick={(e) => {
-                      e.preventDefault(); // Link'in tıklanmasını engelle
-                      startEditing(listing);
-                    }}
-                    size="sm"
-                    variant="outline"
-                    className="bg-blue-500 text-white hover:bg-blue-600"
-                  >
-                    <Edit className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    onClick={(e) => {
-                      e.preventDefault(); // Link'in tıklanmasını engelle
-                      deleteListing(listing.id);
-                    }}
-                    size="sm"
-                    variant="destructive"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </>
-              )}
-            </div>
-          </Card>
-        ))}
-      </div>
+                      <Button
+                        onClick={(e) => {
+                          e.preventDefault(); // Link'in tıklanmasını engelle
+                          startEditing(listing);
+                        }}
+                        size="sm"
+                        variant="outline"
+                        className="bg-blue-500 text-white hover:bg-blue-600"
+                      >
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        onClick={(e) => {
+                          e.preventDefault(); // Link'in tıklanmasını engelle
+                          deleteListing(listing.id);
+                        }}
+                        size="sm"
+                        variant="destructive"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </>
+                  )}
+                </div>
+              </Card>
+            ))}
+          </div>
 
-      <div className="flex justify-center gap-2 mt-8">
-        <Button
-          onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
-          disabled={currentPage === 1 || isLoading}
-          variant="outline"
-          className="bg-black text-white"
-        >
-          Previous
-        </Button>
-        <span className="flex items-center">
-          Page {currentPage} of {totalPages}
-        </span>
-        <Button
-          onClick={() =>
-            setCurrentPage((prev) => Math.min(totalPages, prev + 1))
-          }
-          disabled={currentPage === totalPages || isLoading}
-          variant="outline"
-          className="bg-black text-white"
-        >
-          Next
-        </Button>
-      </div>
+          <div className="flex justify-center gap-2 mt-8">
+            <Button
+              onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+              disabled={currentPage === 1 || isLoading}
+              variant="outline"
+              className="bg-black text-white"
+            >
+              Previous
+            </Button>
+            <span className="flex items-center">
+              Page {currentPage} of {totalPages}
+            </span>
+            <Button
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(totalPages, prev + 1))
+              }
+              disabled={currentPage === totalPages || isLoading}
+              variant="outline"
+              className="bg-black text-white"
+            >
+              Next
+            </Button>
+          </div>
         </TabsContent>
       </Tabs>
-
-    
-
     </div>
   );
 }
