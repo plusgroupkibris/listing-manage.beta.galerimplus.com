@@ -214,9 +214,8 @@ export default function CarListingsPage() {
       )}
 
       <Tabs defaultValue="add" className="w-full">
-        <TabsList className="w-full grid grid-cols-3 mb-6">
+        <TabsList className="w-full grid grid-cols-2 mb-6">
           <TabsTrigger value="add">Ekle</TabsTrigger>
-          <TabsTrigger value="filter">Filtrele</TabsTrigger>
           <TabsTrigger value="list">İlanlar</TabsTrigger>
         </TabsList>
 
@@ -466,7 +465,8 @@ export default function CarListingsPage() {
             </CardFooter>
           </Card>
         </TabsContent>
-        <TabsContent value="filter">
+
+        <TabsContent value="list">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
             <Card>
               <CardHeader>
@@ -537,8 +537,6 @@ export default function CarListingsPage() {
               </CardContent>
             </Card>
           </div>
-        </TabsContent>
-        <TabsContent value="list">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-2xl font-bold">
               All Car Listings ({displayedListings.length})
