@@ -28,6 +28,7 @@ import {
 } from "@/types";
 import ImageTabs from "./components/image-tabs";
 import FeatureBadges from "./components/feature-badges";
+import { equipmentGroups } from "@/constants/equipmentGroups";
 
 export default function ListingDetailPage() {
   const params = useParams();
@@ -98,13 +99,11 @@ export default function ListingDetailPage() {
     });
   };
 
-
   const formatFeature = (featureId: string) => {
-  return featureId
-    .replace(/-/g, " ")          // tireleri boşluk yap
-    .replace(/\b\w/g, (l) => l.toUpperCase()); // baş harfleri büyük yap
-};
-
+    return featureId
+      .replace(/-/g, " ") // tireleri boşluk yap
+      .replace(/\b\w/g, (l) => l.toUpperCase()); // baş harfleri büyük yap
+  };
 
   return (
     <div className="container mx-auto p-4">
@@ -342,11 +341,15 @@ export default function ListingDetailPage() {
                 </div>
               )}
 
-
-
-
-
-
+<p>
+  v2
+</p>
+            <FeatureBadges
+              selectedEquipmentFeatures={
+                currentListing.selectedEquipmentFeatures
+              }
+              equipmentGroups={equipmentGroups}
+            />
 
             {currentListing.remove && (
               <div className="space-y-2 text-red-700 bg-red-50 p-4 rounded-md border border-red-200">
