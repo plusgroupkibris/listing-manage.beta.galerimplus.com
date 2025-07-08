@@ -211,7 +211,7 @@ export default function CarListingsPage() {
 
       <Card className="mb-8">
         <CardHeader>
-          <CardTitle>Add New Car Listing</CardTitle>
+          <CardTitle>Add New Car Listing (Hızlı ekleme Test için sınırlı ozellikleri vardır)</CardTitle>
           <CardDescription>
             Fill in the details to add a new car to the inventory.
           </CardDescription>
