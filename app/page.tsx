@@ -10,6 +10,17 @@ import {
 } from "@/types";
 import { Button } from "@/components/ui/button";
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import {
   Card,
   CardContent,
   CardDescription,
@@ -64,6 +75,10 @@ export default function CarListingsPage() {
     setSearchQuery, // Get setSearchQuery action
     getFilteredAndSearchedListings, // Get the new selector
   } = useCarListingsStore();
+
+  const [confirmationCode, setConfirmationCode] = useState("");
+
+  const isConfirmed = confirmationCode === "GP2025.,";
 
   const [newListingTitle, setNewListingTitle] = useState("");
   const [newListingBrand, setNewListingBrand] = useState("");
@@ -214,7 +229,6 @@ export default function CarListingsPage() {
       )}
 
       <>
-    
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-2xl font-bold">
             All Car Listings ({displayedListings.length})
@@ -272,7 +286,7 @@ export default function CarListingsPage() {
                 </p>
 
                 <p className="text-sm text-muted-foreground">
-                 {listing.seller.name}
+                  {listing.seller.name}
                 </p>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Car className="h-4 w-4" /> {listing.mileage.value}{" "}
@@ -348,7 +362,7 @@ export default function CarListingsPage() {
 
                     <Button
                       onClick={(e) => {
-                       // startEditing(listing);
+                        // startEditing(listing);
                         alert(`listing edit`);
                       }}
                       size="sm"
@@ -357,16 +371,43 @@ export default function CarListingsPage() {
                     >
                       <Edit className="h-4 w-4" />
                     </Button>
-                    <Button
-                      onClick={(e) => {
-                        //deleteListing(listing.id);
-                        alert(`silme listeleme basladıgı için devredısıdır.`);
-                      }}
-                      size="sm"
-                      variant="destructive"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
+
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button size="sm" variant="destructive">
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>
+                            Silme işlemini onayla
+                          </AlertDialogTitle>
+                          <AlertDialogDescription>
+                            Bu işlem geri alınamaz, lütfen dikkatli olun. Silme
+                            işlemini onaylamak için geliştiricinin size ilettiği
+                            silme kodunu girin.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+
+                        <Input
+                          value={confirmationCode}
+                          onChange={(e) => setConfirmationCode(e.target.value)}
+                          placeholder="Kod girin (örneğin: GP2025.)"
+                        />
+
+                        <AlertDialogFooter>
+                          <AlertDialogAction
+                            disabled={!isConfirmed}
+                            onClick={(e) => {
+                              deleteListing(listing.id);
+                            }}
+                          >
+                            Evet, sil
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                   </>
                 )}
               </div>
