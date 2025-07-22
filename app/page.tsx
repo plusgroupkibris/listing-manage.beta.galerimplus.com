@@ -61,18 +61,8 @@ export default function CarListingsPage() {
     isLoading,
     error,
     fetchListings,
-    fetchUserListings,
-    addListing,
     updateListing,
     deleteListing,
-    getRecentListings,
-    getListingsBySeller,
-    getPaginatedListings,
-    generateListingNo,
-    filters, // Get filters from store
-    searchQuery, // Get searchQuery from store
-    setFilters, // Get setFilters action
-    setSearchQuery, // Get setSearchQuery action
     getFilteredAndSearchedListings, // Get the new selector
   } = useCarListingsStore();
 
@@ -80,34 +70,10 @@ export default function CarListingsPage() {
 
   const isConfirmed = confirmationCode === "GP2025.,";
 
-  const [newListingTitle, setNewListingTitle] = useState("");
-  const [newListingBrand, setNewListingBrand] = useState("");
-  const [newListingModel, setNewListingModel] = useState("");
-  const [newListingYear, setNewListingYear] = useState(2023);
-  const [newListingPrice, setNewListingPrice] = useState(0);
-  const [newListingCurrency, setNewListingCurrency] = useState("USD");
-  const [newListingFuelType, setNewListingFuelType] = useState("Gasoline");
-  const [newListingTransmissionType, setNewListingTransmissionType] =
-    useState("Automatic");
-  const [newListingVehicleType, setNewListingVehicleType] = useState("Sedan");
-  const [newListingColorName, setNewListingColorName] = useState("Black");
-  const [newListingColorCode, setNewListingColorCode] = useState("#000000");
-  const [newListingMileageValue, setNewListingMileageValue] = useState(0);
-  const [newListingMileageUnit, setNewListingMileageUnit] = useState("km");
-  const [newListingCountry, setNewListingCountry] = useState("Turkey");
-  const [newListingCity, setNewListingCity] = useState("Istanbul");
-  const [newListingDistrict, setNewListingDistrict] = useState("Kadıköy");
-  const [newListingSellerUid, setNewListingSellerUid] = useState("seller123");
-  const [newListingSellerName, setNewListingSellerName] = useState("John Doe");
-  const [newListingSellerType, setNewListingSellerType] =
-    useState("individual");
-
   const [editingListingId, setEditingListingId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState("");
   const [editPrice, setEditPrice] = useState(0);
 
-  const [filterHours, setFilterHours] = useState(24);
-  const [filterSellerUid, setFilterSellerUid] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const listingsPerPage = 5;
 
@@ -115,77 +81,11 @@ export default function CarListingsPage() {
     fetchListings();
   }, [fetchListings]);
 
-  const handleAddListing = async () => {
-    if (
-      !newListingTitle ||
-      !newListingBrand ||
-      !newListingModel ||
-      !newListingPrice
-    ) {
-      alert("Please fill in all required fields.");
-      return;
-    }
+  const [filter, setFilter] = useState("");
 
-    const dummyImages = {
-      Front: ["/placeholder.svg?height=200&width=300"],
-      Rear: ["/placeholder.svg?height=200&width=300"],
-      Side: ["/placeholder.svg?height=200&width=300"],
-      Interior: ["/placeholder.svg?height=200&width=300"],
-      Engine: ["/placeholder.svg?height=200&width=300"],
-      Console: ["/placeholder.svg?height=200&width=300"],
-      Other: ["/placeholder.svg?height=200&width=300"],
-    };
-
-    const newListing: Omit<
-      CarListing,
-      | "id"
-      | "listingNo"
-      | "listingDate"
-      | "publishDate"
-      | "viewCount"
-      | "favoriteCount"
-      | "status"
-      | "expiryDate"
-      | "remove"
-    > = {
-      title: newListingTitle,
-      brand: newListingBrand,
-      model: newListingModel,
-      year: newListingYear,
-      price: { amount: newListingPrice, currency: newListingCurrency },
-      originalPrice: { amount: newListingPrice, currency: newListingCurrency },
-      mileage: { value: newListingMileageValue, unit: newListingMileageUnit },
-      fuelType: newListingFuelType,
-      transmissionType: newListingTransmissionType,
-      vehicleType: newListingVehicleType,
-      color: { name: newListingColorName, code: newListingColorCode },
-      location: {
-        country: newListingCountry,
-        city: newListingCity,
-        district: newListingDistrict,
-      },
-      seller: {
-        uid: newListingSellerUid,
-        name: newListingSellerName,
-        type: newListingSellerType,
-      },
-      images: dummyImages,
-      isPriceHidden: false,
-      isNegotiable: true,
-      // expiryDate ve remove alanları CarListing'in Omit kısmında olduğu için burada belirtmeye gerek yok.
-      // Servis katmanı bunları otomatik olarak ekleyecek.
-      imageUrl: "/placeholder.svg?height=200&width=300",
-    };
-
-    await addListing(newListing);
-
-    setNewListingTitle("");
-    setNewListingBrand("");
-    setNewListingModel("");
-    setNewListingYear(2023);
-    setNewListingPrice(0);
-    setNewListingMileageValue(0);
-  };
+  const filteredListings = listings.filter((listing) =>
+    listing.listingNo.toLowerCase().includes(filter.toLowerCase().trim())
+  );
 
   const handleUpdateListing = async (id: string) => {
     if (editingListingId) {
@@ -213,9 +113,6 @@ export default function CarListingsPage() {
     currentPage * listingsPerPage
   );
 
-  const recentListings = getRecentListings(filterHours);
-  const sellerListings = getListingsBySeller(filterSellerUid);
-
   const router = useRouter();
 
   return (
@@ -227,6 +124,35 @@ export default function CarListingsPage() {
           Error: {error}
         </div>
       )}
+
+      <div className="max-w-md mx-auto p-4 bg-white rounded shadow-md">
+        <input
+          type="text"
+          placeholder="İlan numarasına göre ara..."
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+          className="w-full p-3 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+        />
+
+        <ul className="divide-y divide-gray-200 max-h-64 overflow-y-auto">
+          {filteredListings.length > 0 ? (
+            filteredListings.map((listing) => (
+              <li
+                key={listing.id}
+                className="py-2 px-3 hover:bg-blue-50 cursor-pointer rounded"
+                onClick={() => router.push(`/listings/${listing.id}`)}
+              >
+                <span className="font-semibold text-gray-800">
+                  {listing.listingNo}
+                </span>{" "}
+                - <span className="text-gray-600">{listing.title}</span>
+              </li>
+            ))
+          ) : (
+            <li className="text-center text-gray-400 py-4">Sonuç bulunamadı</li>
+          )}
+        </ul>
+      </div>
 
       <>
         <div className="flex items-center justify-between mb-4">
