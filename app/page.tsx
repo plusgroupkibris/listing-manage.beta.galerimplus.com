@@ -68,6 +68,8 @@ export default function CarListingsPage() {
 
   const [confirmationCode, setConfirmationCode] = useState("");
 
+  const [shouldRedirect, setShouldRedirect] = useState(false);
+
   const isConfirmed = confirmationCode === "GP2025.,";
 
   const [editingListingId, setEditingListingId] = useState<string | null>(null);
@@ -80,6 +82,13 @@ export default function CarListingsPage() {
   useEffect(() => {
     fetchListings();
   }, [fetchListings]);
+
+  useEffect(() => {
+    if (shouldRedirect) {
+      router.push("/"); // veya router.refresh();
+      setShouldRedirect(false); // resetle
+    }
+  }, [shouldRedirect]);
 
   const [filter, setFilter] = useState("");
 
@@ -97,6 +106,11 @@ export default function CarListingsPage() {
       setEditTitle("");
       setEditPrice(0);
     }
+  };
+
+  const handleDelete = async (listingId: string) => {
+    await deleteListing(listingId);
+    window.location.reload();
   };
 
   const startEditing = (listing: CarListing) => {
@@ -319,15 +333,13 @@ export default function CarListingsPage() {
                         <Input
                           value={confirmationCode}
                           onChange={(e) => setConfirmationCode(e.target.value)}
-                          placeholder="Kod girin (örneğin: GP2025.)"
+                          placeholder="Kod girin"
                         />
 
                         <AlertDialogFooter>
                           <AlertDialogAction
                             disabled={!isConfirmed}
-                            onClick={(e) => {
-                              deleteListing(listing.id);
-                            }}
+                            onClick={() => handleDelete(listing.id)}
                           >
                             Evet, sil
                           </AlertDialogAction>

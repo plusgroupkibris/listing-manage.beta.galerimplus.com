@@ -19,6 +19,7 @@ import {
   Palette,
   User,
   Phone,
+  Trash2,
 } from "lucide-react";
 import {
   hasPriceChanged,
@@ -31,9 +32,28 @@ import FeatureBadges from "./components/feature-badges";
 import { equipmentGroups } from "@/constants/equipmentGroups";
 import MarkdownRenderer from "@/components/markdown-renderer";
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Input } from "@/components/ui/input";
+import { deleteCarListing } from "@/services/car-listing-service";
+
 export default function ListingDetailPage() {
   const params = useParams();
   const listingId = params.id as string;
+
+
+
+  const [confirmationCode, setConfirmationCode] = useState("");
+  const isConfirmed = confirmationCode === "GP2025.,";
 
   const [showDebugJson, setShowDebugJson] = useState(false);
 
@@ -125,18 +145,65 @@ export default function ListingDetailPage() {
         </>
       ) : (
         <>
-          <Link href="/">
-            <Button variant="outline" className="w-full sm:w-auto">
-              <ArrowLeft className="mr-2 h-4 w-4" /> Geri
-            </Button>
-          </Link>
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-4 mb-4">
+            {/* Sol tarafta Geri butonu */}
+            <div className="w-full sm:w-auto">
+              <Link href="/">
+                <Button variant="outline" className="w-full sm:w-auto">
+                  <ArrowLeft className="mr-2 h-4 w-4" />
+                  Geri
+                </Button>
+              </Link>
+            </div>
 
-          <Button
-            variant="outline"
-            onClick={() => setShowDebugJson(!showDebugJson)}
-          >
-            {showDebugJson ? "Gizle" : "JSON Göster"}
-          </Button>
+            {/* Sağ tarafta diğer butonlar */}
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-2 w-full sm:w-auto">
+              <Button
+                variant="outline"
+                onClick={() => setShowDebugJson(!showDebugJson)}
+                className="w-full sm:w-auto"
+              >
+                {showDebugJson ? "Gizle" : "JSON Göster"}
+              </Button>
+
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button
+                    size="sm"
+                    variant="destructive"
+                    className="w-full sm:w-auto"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Silme işlemini onayla</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Bu işlem geri alınamaz, lütfen dikkatli olun. Silme
+                      işlemini onaylamak için geliştiricinin size ilettiği silme
+                      kodunu girin.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+
+                  <Input
+                    value={confirmationCode}
+                    onChange={(e) => setConfirmationCode(e.target.value)}
+                    placeholder="Kod girin (örneğin: GP2025.)"
+                  />
+
+                  <AlertDialogFooter>
+                    <AlertDialogAction
+                      disabled={!isConfirmed}
+                      onClick={() => deleteCarListing(currentListing.id)}
+                    >
+                      Evet, sil
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </div>
+          </div>
 
           <div className="mb-6 flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
             <h1 className="text-xl sm:text-3xl font-bold text-center sm:text-left">
