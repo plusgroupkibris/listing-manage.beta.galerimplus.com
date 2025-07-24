@@ -68,7 +68,6 @@ export default function CarListingsPage() {
 
   const [confirmationCode, setConfirmationCode] = useState("");
 
-  const [shouldRedirect, setShouldRedirect] = useState(false);
 
   const isConfirmed = confirmationCode === "GP2025.,";
 
@@ -83,12 +82,7 @@ export default function CarListingsPage() {
     fetchListings();
   }, [fetchListings]);
 
-  useEffect(() => {
-    if (shouldRedirect) {
-      router.push("/"); // veya router.refresh();
-      setShouldRedirect(false); // resetle
-    }
-  }, [shouldRedirect]);
+
 
   const [filter, setFilter] = useState("");
 
@@ -108,10 +102,11 @@ export default function CarListingsPage() {
     }
   };
 
-  const handleDelete = async (listingId: string) => {
-    await deleteListing(listingId);
-    window.location.reload();
-  };
+
+const handleDelete = async (listingId: string) => {
+  await deleteListing(listingId);
+  router.push("/"); 
+};
 
   const startEditing = (listing: CarListing) => {
     setEditingListingId(listing.id);
